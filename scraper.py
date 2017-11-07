@@ -1,11 +1,12 @@
 import time
+from datetime import datetime
 import urllib.request
 import requests
 from bs4 import BeautifulSoup
 
 class Scraper:
 
-    dataList = []
+    data_list = []
 
     def __init__(self):
         self.currentTime = int(round(time.time()))
@@ -14,6 +15,9 @@ class Scraper:
 
     def get_url(self):
         return self.url
+
+    def get_data_list(self):
+        return self.data_list
 
     def spider(self):
         url = self.get_url()
@@ -34,9 +38,18 @@ class Scraper:
         for row in rows:
             column = row.find_all("td")
             columnList = [element.text for element in column]
-            print(columnList)
-            self.dataList.append(columnList)
+            #print(columnList)
+            self.data_list.append(columnList)
 
-
+    def correctDate(self):
+        for i in range(0, len(self.data_list)):
+            singe_data_list = self.data_list[i]
+            date = singe_data_list[0]
+            date = date.replace(",", "")
+            date = str((datetime.strptime(date, '%b %d %Y')))
+            date = date[:10]
+            singe_data_list[0] = date
+            print(singe_data_list)
 s = Scraper()
 s.spider()
+s.correctDate()
