@@ -48,8 +48,13 @@ class Scraper:
             date = date.replace(",", "")
             date = str((datetime.strptime(date, '%b %d %Y')))
             date = date[:10]
-            singe_data_list[0] = date
+            #date = datetime.strptime(date, "%Y-%m-%d").strftime("%m-%d-%Y")
+            singe_data_list[0] = str(date)
+            singe_data_list[5] = singe_data_list[5].replace(",", "")
+            singe_data_list[6] = singe_data_list[6].replace(",", "")
             print(singe_data_list)
-s = Scraper()
-s.spider()
-s.correctDate()
+
+    def get_data_array(self):
+        self.spider()
+        self.correctDate()
+        return self.data_list
