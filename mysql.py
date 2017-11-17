@@ -17,6 +17,7 @@ class Database:
         query = "SELECT * FROM mydb.ripple"
         dictCursor.execute(query)
         data = dictCursor.fetchall()
+        print(data)
         return data
 
     def check_if_entry_exists(self, date):
@@ -29,5 +30,3 @@ class Database:
         else:
             return False
 
-d = Database()
-d.getData()

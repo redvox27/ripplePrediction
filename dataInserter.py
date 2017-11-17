@@ -24,6 +24,3 @@ class MainClass:
             if not self.db.check_if_entry_exists(date):
                self.db.insert_data(date, open_price, high_price, low_price, close_price, volume, market_cap)
 
-
-m = MainClass()
-m.insert_data_into_database()
