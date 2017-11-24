@@ -7,9 +7,10 @@ from matplotlib import dates as mdates
 
 class Plotter:
 
-    def __init__(self):
+    def __init__(self, crypto_coin):
         db = Database()
-        self.data = db.getData()
+        self.crypto_coin = crypto_coin
+        self.data = db.getData(self.crypto_coin)
 
 
     def fill_arrays(self):
@@ -38,7 +39,7 @@ class Plotter:
     def plot_graph(self):
         print("fetching data")
         date_array, open_price_array, high_price_array = self.fill_arrays()
-        date_array = sorted(date_array)
+        date_array = sorted(date_array, reverse=True)
 
         fig, ax = plt.subplots()
 
@@ -46,6 +47,7 @@ class Plotter:
 
         plt.xlabel('Date')
         plt.ylabel('Price')
+        plt.suptitle(self.crypto_coin + ' price in Dollars')
 
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y')) #formateer de floatdate naar d-m-Y
         plt.gca().xaxis.set_major_locator(mdates.DayLocator())
@@ -58,6 +60,5 @@ class Plotter:
 
         plt.show()
 
-p = Plotter()
-p.fill_arrays()
-p.plot_graph()
+#p = Plotter("bitcoin")
+#p.plot_graph()

@@ -1,11 +1,13 @@
 from scraper import Scraper
 from mysql import Database
 
-class MainClass:
+class DataInserter:
 
-    def __init__(self):
-        self.scraper = Scraper()
+    def __init__(self, crypto_coin):
+        self.crypto = crypto_coin
+        self.scraper = Scraper(self.crypto)
         self.db = Database()
+
 
     def insert_data_into_database(self):
         collected_data = self.scraper.get_data_array()
@@ -21,7 +23,8 @@ class MainClass:
             volume = data_segment[5]
             market_cap = data_segment[6]
 
-            if not self.db.check_if_entry_exists(date):
-               self.db.insert_data(date, open_price, high_price, low_price, close_price, volume, market_cap)
-m = MainClass()
-m.insert_data_into_database()
+            if not self.db.check_if_entry_exists(date, self.crypto):
+               self.db.insert_data(date, open_price, high_price, low_price, close_price, volume, market_cap, self.crypto)
+
+# m = DataInserter()
+# m.insert_data_into_database()

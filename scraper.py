@@ -8,10 +8,17 @@ class Scraper:
 
     data_list = []
 
-    def __init__(self):
+    def __init__(self, crypto_coin):
         self.currentTime = int(round(time.time()))
         self.pastTime = self.currentTime - 2592000
-        self.url = "https://coinmarketcap.com/currencies/ripple/historical-data/?start=%d&end=%d" % (self.pastTime, self.currentTime)
+        self.crypto_coin = crypto_coin
+        self.url = "https://coinmarketcap.com/currencies/" + self.crypto_coin + "/historical-data/?start=%d&end=%d" % (self.pastTime, self.currentTime)
+
+    def set_crypto_coin(self, crypto_coin):
+        self.crypto_coin = crypto_coin
+
+    def get_crypto_coin(self):
+        return self.crypto_coin
 
     def get_url(self):
         return self.url
