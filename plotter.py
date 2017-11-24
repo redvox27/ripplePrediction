@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import ticker
 from matplotlib import dates as mdates
+
 class Plotter:
 
     def __init__(self):
@@ -28,17 +29,33 @@ class Plotter:
             volume = dictionary['volume']
             marketCap = dictionary['marketCap']
 
-            date_array.append(number_date)
+            date_array.append(mdates.date2num(date_object))
             open_price_array.append(open_price)
             high_price_array.append(high_price)
 
         return date_array, open_price_array, high_price_array
 
     def plot_graph(self):
+        print("fetching data")
         date_array, open_price_array, high_price_array = self.fill_arrays()
+        date_array = sorted(date_array)
 
-        plt.plot(date_array, open_price_array) #eerst x-as dan Y-as
-        plt.plot(date_array, high_price_array)
+        fig, ax = plt.subplots()
+
+        ax.grid(True) #set grid
+
+        plt.xlabel('Date')
+        plt.ylabel('Price')
+
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y')) #formateer de floatdate naar d-m-Y
+        plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+
+        plt.xticks(date_array, rotation=315) # verandert rotatie van de labels op de x-as
+
+        ax.plot(date_array, open_price_array) #eerst x-as dan Y-as
+        ax.plot(date_array, high_price_array)
+        plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+
         plt.show()
 
 p = Plotter()
