@@ -34,7 +34,7 @@ class GraphicalInterface:
         #submitbuttons
         self.plot_button = Button(self.button_frame, text="Plot", command=self.plot)
         self.plot_button.grid(row=0, column=0)
-        self.extract_info_button = Button(self.button_frame, text='Extract Data')
+        self.extract_info_button = Button(self.button_frame, text='Extract Data', command=self.insert_into_database)
         self.extract_info_button.grid(row=1, column=0)
 
         self.ws = self.root.winfo_screenwidth()  # width of the screen
@@ -66,11 +66,20 @@ class GraphicalInterface:
                 plotter = Plotter("bitcoin")
                 plotter.plot_graph()
 
+        except Exception as e:
+            print(e)
 
+    def insert_into_database(self):
+        try:
+            self.root.after(100, self.root.destroy())
+
+            if self.get_ripple_checkbox_value() == 1:
+                data_inserter = DataInserter('ripple')
+                data_inserter.insert_data_into_database()
+
+            elif self.get_bitcoin_checkbox_value() ==1:
+                data_inserter = DataInserter('bitcoin')
+                data_inserter.insert_data_into_database()
 
         except Exception as e:
             print(e)
-g = GraphicalInterface()
-
-
-
