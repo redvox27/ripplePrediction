@@ -16,7 +16,7 @@ class Database:
     def getData(self, crypto_coin):
 
         dictCursor = self.db.cursor(pymysql.cursors.DictCursor)
-        query = "SELECT * FROM " + crypto_coin
+        query = "SELECT * FROM " + crypto_coin + " ORDER BY scrapeDate"
         dictCursor.execute(query)
         data = dictCursor.fetchall()
         return data

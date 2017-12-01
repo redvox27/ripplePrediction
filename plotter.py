@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import ticker
 from matplotlib import dates as mdates
-
+from matplotlib.finance import candlestick2_ohlc
 class Plotter:
 
     def __init__(self, crypto_coin):
@@ -18,6 +18,8 @@ class Plotter:
         date_array = []
         open_price_array = []
         high_price_array = []
+        low_price_array = []
+        close_price_array =[]
 
         for dictionary in array:
             date = dictionary['scrapeDate']
@@ -33,13 +35,14 @@ class Plotter:
             date_array.append(mdates.date2num(date_object))
             open_price_array.append(open_price)
             high_price_array.append(high_price)
+            low_price_array.append(low_price)
+            close_price_array.append(close_price)
 
-        return date_array, open_price_array, high_price_array
+        return date_array, open_price_array, high_price_array, low_price_array, close_price_array
 
     def plot_graph(self):
         print("fetching data")
-        date_array, open_price_array, high_price_array = self.fill_arrays()
-        date_array = sorted(date_array, reverse=True)
+        date_array, open_price_array, high_price_array, low_price_array, close_price_array = self.fill_arrays()
 
         fig, ax = plt.subplots()
 
@@ -56,6 +59,8 @@ class Plotter:
 
         ax.plot(date_array, open_price_array) #eerst x-as dan Y-as
         ax.plot(date_array, high_price_array)
+        #candlestick2_ohlc(ax,open_price_array, high_price_array,low_price_array, close_price_array)
+
         plt.gca().xaxis.set_major_locator(mdates.DayLocator())
 
         plt.show()
